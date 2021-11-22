@@ -1,5 +1,6 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
+import ToDoList from './ToDoList';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap');
@@ -55,7 +56,8 @@ table {
 }
 body {
   font-family: 'Oswald', sans-serif;
-  
+  background-color:${(props) => props.theme.bgColor};
+  color:${(props) => props.theme.textColor};
   
 }
 a {
@@ -70,6 +72,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
+      <ToDoList />
     </>
   );
 }
