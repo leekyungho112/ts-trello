@@ -1,5 +1,14 @@
 import { atom, selector } from 'recoil';
 
+export const loadedTodo = () => {
+  const loadedToDo = localStorage.getItem('TODO');
+  if (loadedToDo === null) {
+    return;
+  }
+
+  return JSON.parse(loadedToDo);
+};
+
 export enum Categories {
   'TO_DO' = 'TO_DO',
   'DOING' = 'DOING',
@@ -19,7 +28,7 @@ export const categoryState = atom<Categories>({
 
 export const toDoState = atom<IToDo[]>({
   key: 'toDo',
-  default: [],
+  default: loadedTodo() || [],
 });
 
 export const toDoSelector = selector({

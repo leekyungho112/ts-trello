@@ -1,10 +1,14 @@
-import { useSetRecoilState } from 'recoil';
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { Categories, IToDo, toDoState } from '../atoms';
 
 const ToDo = ({ text, category, id }: IToDo) => {
-  const setToDos = useSetRecoilState(toDoState);
+  const [todos, setToDos] = useRecoilState(toDoState);
+
+  useEffect(() => {
+    localStorage.setItem('TODO', JSON.stringify(todos));
+  }, [todos]);
   const onClick = (newCategory: IToDo['category']) => {
-    console.log(newCategory);
     setToDos((oldToDos) => {
       const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
 
@@ -15,6 +19,11 @@ const ToDo = ({ text, category, id }: IToDo) => {
         newTodo,
         ...oldToDos.slice(targetIndex + 1),
       ];
+    });
+  };
+  const onDelete = () => {
+    setToDos((oldTodo) => {
+      return oldTodo.filter((toDo) => toDo.id !== id);
     });
   };
   return (
@@ -29,6 +38,7 @@ const ToDo = ({ text, category, id }: IToDo) => {
       {category !== Categories.DONE && (
         <button onClick={() => onClick(Categories.DONE)}>DONE</button>
       )}
+      <button onClick={onDelete}>DELETE</button>
     </li>
   );
 };

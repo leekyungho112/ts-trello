@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { categoryState, toDoState } from '../atoms';
 
 interface IForm {
@@ -8,7 +8,7 @@ interface IForm {
 }
 
 const CreateToDo = () => {
-  const setToDos = useSetRecoilState(toDoState);
+  const [todos, setToDos] = useRecoilState(toDoState);
   const category = useRecoilValue(categoryState);
   const {
     register,
@@ -23,6 +23,9 @@ const CreateToDo = () => {
     ]);
     setValue('toDo', '');
   };
+  useEffect(() => {
+    localStorage.setItem('TODO', JSON.stringify(todos));
+  }, [todos]);
   return (
     <form
       style={{ display: 'flex', flexDirection: 'column' }}
