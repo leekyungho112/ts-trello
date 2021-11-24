@@ -92,3 +92,17 @@ const { register, watch, handleSubmit } = useForm();
     </div>
   );
 ```
+
+- recoil selector는 state를 가져다가 변형해주는 함수이다.
+- get function은 selector가 어떤것을 반환할지를 결정한다.
+
+```js
+const charCountState = selector({
+  key: 'charCountState', // unique ID (with respect to other atoms/selectors)
+  get: ({ get }) => {
+    const text = get(textState);
+
+    return text.length;
+  },
+});
+```
