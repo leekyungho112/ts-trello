@@ -106,3 +106,6 @@ const charCountState = selector({
   },
 });
 ```
+
+- 불필요한 재 렌더링이 많아 최적화를 필요로 할때 React.memo()를 사용한다.
+- React.memo()는 props이 변화가 없다면 컴포넌트의 재렌더링을 막는다.
