@@ -2,6 +2,26 @@
 
 - react-hook-form
 
+---
+
+## Preview
+
+[Trello](https://leekyungho112.github.io/ts-trello/)
+
+---
+
+## 코드챌린지
+
+- [x] localStroage 저장
+- [x] 새로운 Board추가
+- [x] Board item List 휴지통으로 삭제
+
+## 수정 및 개선사항
+
+- [ ] Board간에 drag and drop 설정
+- [ ] 리펙토링
+- [ ] UI개선
+
 ```js
 const { register, watch, handleSubmit } = useForm();
 ```
@@ -111,15 +131,3 @@ const charCountState = selector({
 - React.memo()는 props이 변화가 없다면 컴포넌트의 재렌더링을 막는다.
 
 ---
-
-## 코드챌린지
-
-- [x] localStroage 저장
-- [x] 새로운 Board추가
-- [x] Board item List 휴지통으로 삭제
-
-## 수정 및 개선사항
-
-- [ ] Board간에 drag and drop 설정
-- [ ] 리펙토링
-- [ ] UI개선
