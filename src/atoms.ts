@@ -1,14 +1,22 @@
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
+import { loadedTodos } from './store/localStorage';
 
-interface IToDoState {
-  [key: string]: string[];
+export interface ITodo {
+  id: number;
+  text: string;
+}
+
+export interface IToDoState {
+  [key: string]: ITodo[];
 }
 
 export const toDoState = atom<IToDoState>({
   key: 'toDo',
-  default: {
-    'To Do': ['a', 'f'],
-    Doing: ['b', 'e'],
-    Done: ['c', 'd'],
-  },
+  default: loadedTodos()
+    ? loadedTodos()
+    : {
+        'To Do': [],
+        Doing: [],
+        Done: [],
+      },
 });
