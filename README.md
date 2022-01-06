@@ -18,9 +18,10 @@
 
 ## 수정 및 개선사항
 
-- [ ] Board간에 drag and drop 설정
+- [x] Board간에 drag and drop 설정
 - [ ] 리펙토링
 - [ ] UI개선
+- [ ] Board drag 중에 board의 텍스트가 숫자로 시작할때 드래깅이 안되는 문제
 
 ```js
 const { register, watch, handleSubmit } = useForm();
