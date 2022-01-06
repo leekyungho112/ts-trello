@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Droppable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
 import styled from 'styled-components';
 import DragabbleCard from './DragabbleCard';
 import { ITodo, toDoState } from '../atoms';
@@ -59,6 +59,7 @@ const Area = styled.div<IAreaProps>`
 interface IBoardProps {
   toDos: ITodo[];
   boardId: string;
+  boardIndex: number;
 }
 interface IForm {
   toDo: string;
@@ -71,7 +72,7 @@ const Form = styled.form`
   }
 `;
 
-const Board = ({ toDos, boardId }: IBoardProps) => {
+const Board = ({ toDos, boardId, boardIndex }: IBoardProps) => {
   const [toDoStates, setToDos] = useRecoilState(toDoState);
   const { register, setValue, handleSubmit } = useForm<IForm>();
   const onVaild = ({ toDo }: IForm) => {
@@ -99,38 +100,47 @@ const Board = ({ toDos, boardId }: IBoardProps) => {
     saveTodos(toDoStates);
   }, [toDoStates]);
   return (
-    <Wrapper>
-      <Title>{boardId}</Title>
-      <DeleteBoardButton onClick={handleDeleteBoard}>DELETE</DeleteBoardButton>
-      <Form onSubmit={handleSubmit(onVaild)}>
-        <input
-          {...register('toDo', { required: true })}
-          type="text"
-          placeholder={`Add Task ${boardId}`}
-        />
-      </Form>
-
-      <Droppable droppableId={boardId}>
-        {(magic, snapshot) => (
-          <Area
-            isDraggingOver={snapshot.isDraggingOver}
-            isDraggingFromThisWith={Boolean(snapshot.draggingFromThisWith)}
-            ref={magic.innerRef}
-            {...magic.droppableProps}
-          >
-            {toDos?.map((toDo, index) => (
-              <DragabbleCard
-                key={toDo.id}
-                index={index}
-                toDoId={toDo.id}
-                toDoText={toDo.text}
-              />
-            ))}
-            {magic.placeholder}
-          </Area>
-        )}
-      </Droppable>
-    </Wrapper>
+    <Draggable draggableId={boardId} index={boardIndex} key={boardId}>
+      {(magic) => (
+        <Wrapper
+          ref={magic.innerRef}
+          {...magic.draggableProps}
+          {...magic.dragHandleProps}
+        >
+          <Title>{boardId}</Title>
+          <DeleteBoardButton onClick={handleDeleteBoard}>
+            DELETE
+          </DeleteBoardButton>
+          <Form onSubmit={handleSubmit(onVaild)}>
+            <input
+              {...register('toDo', { required: true })}
+              type="text"
+              placeholder={`Add Task ${boardId}`}
+            />
+          </Form>
+          <Droppable droppableId={boardId}>
+            {(magic, snapshot) => (
+              <Area
+                isDraggingOver={snapshot.isDraggingOver}
+                isDraggingFromThisWith={Boolean(snapshot.draggingFromThisWith)}
+                ref={magic.innerRef}
+                {...magic.droppableProps}
+              >
+                {toDos?.map((toDo, index) => (
+                  <DragabbleCard
+                    key={toDo.id}
+                    index={index}
+                    toDoId={toDo.id}
+                    toDoText={toDo.text}
+                  />
+                ))}
+                {magic.placeholder}
+              </Area>
+            )}
+          </Droppable>
+        </Wrapper>
+      )}
+    </Draggable>
   );
 };
 
